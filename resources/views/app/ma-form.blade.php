@@ -68,32 +68,19 @@
                                 <div class="col">
                                     <div class="fv-row mb-9">
                                         <label class="fs-6 fw-bold required mb-2">Especialidade</label>
-                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="specialty" tabindex="3" >
+                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" id="spe" name="specialty" tabindex="1" onchange="getDoctor(this);" >
                                                 @foreach ( $arrSpecialty as $arrData )
-                                                    <option value="{{ $arrData['id'] }}">{{ $arrData['specialty'] }}</option>
+                                                    <option value="{{ $arrData['id_specialty'] }}">{{ $arrData['specialty'] }}</option>
                                                 @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col" >
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">CRM</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="CRM" name="crm" tabindex="2" value="" />
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row row-cols-lg-2 g-10">
                                 <div class="col">
                                     <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">Nome</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="Nome do médico" name="name" tabindex="1" value="" />
-                                    </div>
-                                </div>
-                                <div class="col" >
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">CRM</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="CRM" name="crm" tabindex="2" value="" />
+                                        <label class="fs-6 fw-bold required mb-2">Médico</label>
+                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="doctor" id="doctor" tabindex="2" >
+                                            <option value="E"> Selecione</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -101,15 +88,41 @@
                             <div class="row row-cols-lg-2 g-10">
                                 <div class="col">
                                     <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">Especialidade</label>
-                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="specialty" tabindex="3" >
-                                                @foreach ( $arrSpecialty as $arrData )
-                                                    <option value="{{ $arrData['id'] }}">{{ $arrData['specialty'] }}</option>
-                                                @endforeach
+                                        <label class="fs-6 fw-bold required mb-2">Paciente</label>
+                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="patient" tabindex="3" >
+                                            <option value="E"> Selecione</option>
+                                            @foreach ( $arrPatientNew as $arrPatient )
+                                                <option value="{{ $arrPatient['id_patient'] }}">{{ $arrPatient['patient'] }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                {{-- onchange="checkBirthDate(this);" --}}
+                                <div class="col" >
+                                    <div class="fv-row mb-9">
+                                        <label class="fs-6 fw-bold required mb-2">Data nascimento</label>
+                                        <input class="form-control form-control-solid" id="birthdate" placeholder="Data nascimento"  name="birthdate" tabindex="4" value=""  />
+                                    </div>
+                                </div>
+                                
                             </div>
+
+                            <div class="row row-cols-lg-2 g-10" id="block_responsible" style="display:none;">
+                                <div class="col">
+                                    <div class="fv-row mb-9">
+                                        <label class="fs-6 fw-bold required mb-2">nome do responsável</label>
+                                        <input class="form-control form-control-solid" id="responsible_name" placeholder="nome do responsável"  name="responsible_name" tabindex="9" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="fv-row mb-9">
+                                        <label class="fs-6 fw-bold required mb-2">CPF do responsável</label>
+                                        <input class="form-control form-control-solid" id="responsible_cpf" placeholder="CPF do responsável"  name="responsible_cpf" tabindex="10" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
                         </div>
 
                     </div>
@@ -142,31 +155,21 @@
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/jquery.mask.js"></script> 
     <script type="text/javascript" >
-        jQuery(function($){
-            $("#kt_calendar_datepicker_start_date").mask("99/99/9999");
-            $(".phone").mask("(99) 999999999");
-            //$("#tin").mask("99-9999999");
-            //$("#ssn").mask("999-99-9999");
-        });
 
-        $( '#cep' ).change(function() {
+        $( '#birthdate' ).change(function() {
 
             $(this).removeClass().addClass('form-control form-control-solid');
-            
+            birthdate = $('#birthdate').val().replace('/', '.').replace('/', '.').replace('/', '.')
             $.ajax({
                 type: "GET",
-                url: "get-cep",
-                data: "cep=" + $('#cep').val(),
+                url: "ma-checkbirthdate/"+birthdate,
                 dataType: "json",
                 success: function(result) {
-                    if( result.status  == '1'){                        
-                        $("#address").val(result.address);
-                        $("#district").val(result.district);
-                        $("#city").val(result.city);
-                        $("#state").val(result.state);
+                    if( result.smaller12 == 'Y' ){
+                       $("#block_responsible").show();
+                       $("#responsible_name, #responsible_cpf").removeClass().addClass('form-control form-control-solid input-error');
                     }else{
-                        $("#address, #district, #city, #state").val("");
-                        $("#cep").removeClass().addClass('form-control form-control-solid input-error');
+                       $("#block_responsible").hide();
                     }
                 },
                 error: function(result, status) {
@@ -176,6 +179,29 @@
             
             
         });
+
+        function getDoctor(data){
+            $.ajax({
+                type: "GET",
+                url: "doctor-get/"+data.value,
+                dataType: "json",
+                success: function(result) {
+                    $("#doctor").html(result.option);
+                    console.log(result.option);
+                }
+            });
+
+        }
+        jQuery(function($){
+            $("#birthdate").mask("99/99/9999");
+            $(".phone").mask("(99) 999999999");
+            //$("#tin").mask("99-9999999");
+            //$("#ssn").mask("999-99-9999");
+
+            
+        });
+
+        
     </script>
 
     

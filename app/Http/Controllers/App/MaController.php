@@ -56,13 +56,25 @@ class MaController extends Controller
         foreach( $arrList as $d ){
             $d = $d->getAttributes();
             
-            $arrSpecialty[$i]['id'] = $d['id'];
+            $arrSpecialty[$i]['id_specialty'] = $d['id'];
             $arrSpecialty[$i]['specialty'] = strtoupper(substr($d['specialty'],0,1)).strtolower(substr($d['specialty'],1));
             $i++;
 
         }
+        
+        $arrPatientNew = array();
+        $arrPatient = Patient::get();
+        
+        $i=0;
+        foreach( $arrPatient as $d ){
+            $d = $d->getAttributes();
+            
+            $arrPatientNew[$i]['id_patient'] = $d['id'];
+            $arrPatientNew[$i]['patient'] = strtoupper(substr($d['name'],0,1)).strtolower(substr($d['name'],1));
+            $i++;
 
-        return view('app.ma-form', [ 'arrSpecialty'=>$arrSpecialty ]);
+        }
+        return view('app.ma-form', [ 'arrSpecialty'=>$arrSpecialty, 'arrPatientNew' => $arrPatientNew ]);
     }
 
     public function save(Request $request)
@@ -75,4 +87,27 @@ class MaController extends Controller
 
         return redirect('/ma-list');
     }
+
+    public function checkbirthdate($birthdate)
+    {
+        $mBegin = date("m");
+        $mEnd = substr(str_replace(".","",$birthdate), 2,2);
+        
+        $yBegin = date("Y");
+        $yEnd = substr(str_replace(".","",$birthdate), 4);
+        
+        if( $mEnd > $mBegin ){
+            $birth = (($yBegin- $yEnd) - 1);
+        }else{
+            $birth = $yBegin - $yEnd;
+        }
+
+        if( $birth <= 12 ){
+            return json_encode(array( 'smaller12'=>'Y'));
+        }
+
+        return json_encode(array( 'smaller12'=>'N'));
+
+    }
+
 }

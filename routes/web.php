@@ -19,6 +19,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/get-cep', [AddressController::class, 'get_cep'])->name('get-cep');
 
 // Router Doctor
+Route::get('/doctor-get/{var}', [DoctorController::class, 'getDoctor'] )->name('doctor-get');
 Route::get('/doctor-list', [DoctorController::class, 'list'])->name('doctor-list');
 Route::get('/doctor-create', [DoctorController::class, 'create'])->name('doctor-create');
 Route::post('/doctor-save', [DoctorController::class, 'save'])->name('doctor-save');
@@ -39,6 +40,8 @@ Route::post('/specialty-save', [SpecialtyController::class, 'save'])->name('spec
 Route::get('/ma-list', [MaController::class, 'list'])->name('ma-list');
 Route::get('/ma-create', [MaController::class, 'create'])->name('ma-create');
 Route::post('/ma-save', [MaController::class, 'save'])->name('ma-save');
+Route::get('/ma-checkbirthdate/{var}', [MaController::class, 'checkbirthdate'])->name('ma-checkbirthdate');
+
 
 
 Auth::routes();
