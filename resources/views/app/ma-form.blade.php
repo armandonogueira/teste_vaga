@@ -69,9 +69,10 @@
                                     <div class="fv-row mb-9">
                                         <label class="fs-6 fw-bold required mb-2">Especialidade</label>
                                         <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" id="spe" name="specialty" tabindex="1" onchange="getDoctor(this);" >
-                                                @foreach ( $arrSpecialty as $arrData )
-                                                    <option value="{{ $arrData['id_specialty'] }}">{{ $arrData['specialty'] }}</option>
-                                                @endforeach
+                                            <option value="E"> Selecione</option>
+                                            @foreach ( $arrSpecialty as $arrData )
+                                                <option value="{{ $arrData['id_specialty'] }}">{{ $arrData['specialty'] }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -155,6 +156,62 @@
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/jquery.mask.js"></script> 
     <script type="text/javascript" >
+        
+        $( '#kt_modal_add_event_submit' ).on('click', function() {
+
+            if( $('#birthdate').attr('smaller12') == "Y" ){
+                
+                if( $("#responsible_name").val().length < 1 ){
+                    alert('Paciente menor de 12 anos, é obrigatório ter nome e cpf de um responsável.')
+                    return false;
+                }
+                if( $("#responsible_cpf").val().length < 1 ){
+                     alert('Paciente menor de 12 anos, é obrigatório ter nome e cpf de um responsável.')
+                    return false;
+                }
+                if( $("#select2-spe-container").text() != "Pediatria" ){
+                    alert('Paciente menor de 12 anos, pode ser consultado apenas com PEDIATRA.')
+                    return false;
+                }
+            }
+            console.log($('#form_data').serialize());
+            $.ajax({
+                type: "POST",
+                url: "ma-save",
+                data: $('#form_data').serialize(),
+                dataType: "json",
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(result, status) {
+                    console.log(result);
+                }
+            });
+
+            
+                
+            return false;
+            /*$(this).removeClass().addClass('form-control form-control-solid');
+
+            $.ajax({
+                type: "GET",
+                url: "ma-checkbirthdate/"+birthdate,
+                dataType: "json",
+                success: function(result) {
+                    if( result.smaller12 == 'Y' ){
+                       $("#block_responsible").show();
+                       $("#responsible_name, #responsible_cpf").removeClass().addClass('form-control form-control-solid input-error');
+                    }else{
+                       $("#block_responsible").hide();
+                    }
+                },
+                error: function(result, status) {
+                    console.log(result);
+                }
+            });*/
+            
+            
+        });
 
         $( '#birthdate' ).change(function() {
 
@@ -167,8 +224,10 @@
                 success: function(result) {
                     if( result.smaller12 == 'Y' ){
                        $("#block_responsible").show();
+                       $("#birthdate").attr('smaller12', 'Y');
                        $("#responsible_name, #responsible_cpf").removeClass().addClass('form-control form-control-solid input-error');
                     }else{
+                       $("#birthdate").removeAttr('smaller12');
                        $("#block_responsible").hide();
                     }
                 },
@@ -195,6 +254,7 @@
         jQuery(function($){
             $("#birthdate").mask("99/99/9999");
             $(".phone").mask("(99) 999999999");
+            $("#responsible_cpf").mask("999.999.999-99");
             //$("#tin").mask("99-9999999");
             //$("#ssn").mask("999-99-9999");
 

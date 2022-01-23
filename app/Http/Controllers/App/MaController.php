@@ -79,6 +79,8 @@ class MaController extends Controller
 
     public function save(Request $request)
     {
+        print_r($request); die();
+        
         $data = new Specialty();
         $data->specialty = $request->specialty;
         $data->status = $request->status;
