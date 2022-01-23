@@ -14,8 +14,9 @@ class AddressController extends Controller
         
         $cep = $_REQUEST['cep'];
         
-        $reg = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
-        
+        // $reg = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
+        echo $reg = simplexml_load_file("https://viacep.com.br/ws/".$cep."/json/");
+        die();
         $return = array();
         $return['status']   = (string) $reg->resultado;
         $return['address']  = (string) $reg->tipo_logradouro . ' ' . $reg->logradouro;

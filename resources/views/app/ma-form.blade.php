@@ -15,7 +15,7 @@
 <?php if (1==1){ ?> 
 @section('content')
 
-    <link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
     
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -23,7 +23,7 @@
             <!--begin::Page title-->
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Pacientes</h1>
+                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Consultas</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-200 border-start mx-4"></span>
@@ -62,64 +62,56 @@
                         
                         <div style="border: none;background-color: #edecec;padding: 2% 3% 2% 3%;border-left-width: medium;border-bottom-right-radius: 22px;border-top-right-radius: 22px;border-top-left-radius: 22px;border-bottom-left-radius: 22px;margin: 1% 0;">
                             
+                            <label class="fs-6 fw-bold mb-2" style="border-bottom-style: ridge;" >Médico</label>
+                                    
+                            <div class="row row-cols-lg-2 g-10">
+                                <div class="col">
+                                    <div class="fv-row mb-9">
+                                        <label class="fs-6 fw-bold required mb-2">Especialidade</label>
+                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="specialty" tabindex="3" >
+                                                @foreach ( $arrSpecialty as $arrData )
+                                                    <option value="{{ $arrData['id'] }}">{{ $arrData['specialty'] }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col" >
+                                    <div class="fv-row mb-9">
+                                        <label class="fs-6 fw-bold required mb-2">CRM</label>
+                                        <input type="text" class="form-control form-control-solid" placeholder="CRM" name="crm" tabindex="2" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row row-cols-lg-2 g-10">
                                 <div class="col">
                                     <div class="fv-row mb-9">
                                         <label class="fs-6 fw-bold required mb-2">Nome</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="Nome" name="name" tabindex="1" value="{{ $data['name'] }}" />
+                                        <input type="text" class="form-control form-control-solid" placeholder="Nome do médico" name="name" tabindex="1" value="" />
                                     </div>
                                 </div>
                                 <div class="col" >
                                     <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">Cpf</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="Cpf" name="cpf" tabindex="2" value="{{ $data['cpf'] }}" />
+                                        <label class="fs-6 fw-bold required mb-2">CRM</label>
+                                        <input type="text" class="form-control form-control-solid" placeholder="CRM" name="crm" tabindex="2" value="" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row row-cols-lg-2 g-10">
-                                <div class="col" >
+                                <div class="col">
                                     <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold mb-2">Telefone</label>
-                                        <input class="form-control form-control-solid phone" id="telephone" placeholder="Telefone"  name="telephone" tabindex="3" value="{{ $data['telephone'] }}" />
-                                    </div>
-                                </div>
-                                <div class="col" >
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">E-mail</label>
-                                        <input type="text" class="form-control form-control-solid" placeholder="E-mail" name="email" tabindex="4" value="{{ $data['email'] }}" />
+                                        <label class="fs-6 fw-bold required mb-2">Especialidade</label>
+                                        <select data-control="select2" class="form-select form-select-sm form-select-solid" style="padding-top: 0.85rem !important;" name="specialty" tabindex="3" >
+                                                @foreach ( $arrSpecialty as $arrData )
+                                                    <option value="{{ $arrData['id'] }}">{{ $arrData['specialty'] }}</option>
+                                                @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <div style="border: none;background-color: #edecec;padding: 2% 3% 2% 3%;border-left-width: medium;border-bottom-right-radius: 22px;border-top-right-radius: 22px;border-top-left-radius: 22px;border-bottom-left-radius: 22px;margin: 1% 0;">
-                            <div class="row row-cols-lg-2 g-10">
-                                <div class="col">
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">CEP</label>
-                                        <input class="form-control form-control-solid" id="cep" placeholder="CEP"  name="cep" tabindex="5" value="{{ $data['zipcode'] }}" />
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">Endereço</label>
-                                        <input class="form-control form-control-solid" id="address" placeholder="Endereço"  name="address" tabindex="6" value="{{ $data['address'] }}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row row-cols-lg-2 g-10">
-                                <div class="col">
-                                    <div class="fv-row mb-9">
-                                        <label class="fs-6 fw-bold required mb-2">Número</label>
-                                        <input class="form-control form-control-solid" id="number" placeholder="Número"  name="number" tabindex="7"  value="{{ $data['number'] }}"/>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
                     </div>
 
                     <div class="modal-footer flex-center">
@@ -153,23 +145,32 @@
         jQuery(function($){
             $("#kt_calendar_datepicker_start_date").mask("99/99/9999");
             $(".phone").mask("(99) 999999999");
+            //$("#tin").mask("99-9999999");
             //$("#ssn").mask("999-99-9999");
         });
 
         $( '#cep' ).change(function() {
 
             $(this).removeClass().addClass('form-control form-control-solid');
-
+            
             $.ajax({
                 type: "GET",
-                url: 'https://viacep.com.br/ws/' + $('#cep').val() + '/json',
+                url: "get-cep",
+                data: "cep=" + $('#cep').val(),
                 dataType: "json",
                 success: function(result) {
-                    $("#address").val(result.logradouro);
+                    if( result.status  == '1'){                        
+                        $("#address").val(result.address);
+                        $("#district").val(result.district);
+                        $("#city").val(result.city);
+                        $("#state").val(result.state);
+                    }else{
+                        $("#address, #district, #city, #state").val("");
+                        $("#cep").removeClass().addClass('form-control form-control-solid input-error');
+                    }
                 },
                 error: function(result, status) {
-                    $("#cep").removeClass().addClass('form-control form-control-solid input-error');
-                    $("#address").val("");
+                    console.log(result);
                 }
             });
             

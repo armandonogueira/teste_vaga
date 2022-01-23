@@ -49,7 +49,20 @@ class MaController extends Controller
 
     public function create()
     {
-        return view('app.ma-form');
+        $arrSpecialty = array();
+        $arrList = Specialty::get();
+        
+        $i=0;
+        foreach( $arrList as $d ){
+            $d = $d->getAttributes();
+            
+            $arrSpecialty[$i]['id'] = $d['id'];
+            $arrSpecialty[$i]['specialty'] = strtoupper(substr($d['specialty'],0,1)).strtolower(substr($d['specialty'],1));
+            $i++;
+
+        }
+
+        return view('app.ma-form', [ 'arrSpecialty'=>$arrSpecialty ]);
     }
 
     public function save(Request $request)
