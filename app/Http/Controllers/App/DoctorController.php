@@ -10,40 +10,44 @@ use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
-    public function list( $json=null, $id=null )
+    public function list( $crm=null )
     {
-        if( $id ){
-            $listDoctor = Doctor::find($id);
-            foreach( $listDoctor as $d ){
-                $d = $d->getAttributes();
-                
-                $arrListNew[$i]['id'] = $d['id'];
-                $arrListNew[$i]['name'] = strtoupper(substr($d['name'],0,1)).strtolower(substr($d['name'],1));
-                $i++;
-    
-            }
-           echo json_encode( array( 'listDoctor' =>$arrListNew )  );
-        }else{
-                
             $arrListNew = array();
-            $arrList = Doctor::get();
-            $i=0;
-            foreach( $arrList as $d ){
-                $d = $d->getAttributes();
-                
+            if( $crm ){
+                $arrList =  DB::table('doctor')
+                                   ->where('crm', $crm)
+                                   ->get();
+                $arrList = $arrList[0];
+
                 // Get specialty by Doctor
-                $specialty = Specialty::find($d['specialty']);
+                $specialty = Specialty::find($arrList->specialty);
                 $specialty = $specialty->getAttributes();
 
-                $arrListNew[$i]['id'] = $d['id'];
-                $arrListNew[$i]['name'] = strtoupper(substr($d['name'],0,1)).strtolower(substr($d['name'],1));
-                $arrListNew[$i]['specialty'] = $specialty['specialty'];
-                $arrListNew[$i]['crm'] = $d['crm'];
-                $i++;
+                $arrListNew[0]['id'] = $arrList->id;
+                $arrListNew[0]['name'] = strtoupper(substr($arrList->name,0,1)).strtolower(substr($arrList->name,1));
+                $arrListNew[0]['specialty'] = $specialty['specialty'];
+                $arrListNew[0]['crm'] = $arrList->crm;
 
+            }else{
+                $arrList = Doctor::get();
+                $i=0;
+                foreach( $arrList as $d ){
+                    $d = $d->getAttributes();
+                    
+                    // Get specialty by Doctor
+                    $specialty = Specialty::find($d['specialty']);
+                    $specialty = $specialty->getAttributes();
+
+                    $arrListNew[$i]['id'] = $d['id'];
+                    $arrListNew[$i]['name'] = strtoupper(substr($d['name'],0,1)).strtolower(substr($d['name'],1));
+                    $arrListNew[$i]['specialty'] = $specialty['specialty'];
+                    $arrListNew[$i]['crm'] = $d['crm'];
+                    $i++;
+
+                }
             }
+
             return view('app.doctor-list', [ 'arrList'=>$arrListNew ]);
-        }
     }
 
     public function getDoctor($id){

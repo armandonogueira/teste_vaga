@@ -20,7 +20,7 @@ Route::get('/get-cep', [AddressController::class, 'get_cep'])->name('get-cep');
 
 // Router Doctor
 Route::get('/doctor-get/{var}', [DoctorController::class, 'getDoctor'] )->name('doctor-get');
-Route::get('/doctor-list', [DoctorController::class, 'list'])->name('doctor-list');
+Route::get('/doctor-list/{var?}', [DoctorController::class, 'list'])->name('doctor-list');
 Route::get('/doctor-create', [DoctorController::class, 'create'])->name('doctor-create');
 Route::post('/doctor-save', [DoctorController::class, 'save'])->name('doctor-save');
 

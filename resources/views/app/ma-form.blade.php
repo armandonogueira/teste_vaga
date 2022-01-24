@@ -54,8 +54,8 @@
     <div class="card card-flush mt-6 mt-xl-9">
         <div class="card-body pt-0">
             <div class="table-responsive">
-
-                <form class="form" action="javascript:void(0);" id="form_data">
+    
+                <form class="form" action="return validade();" method="post" id="form_data">
                     @csrf
                     
                     <div class="modal-body py-10 px-lg-17">
@@ -130,11 +130,14 @@
 
                     <div class="modal-footer flex-center">
                         <button type="reset" id="kt_modal_add_event_cancel" class="btn btn-light me-3">Cancelar</button>
-                        <button type="button" id="kt_modal_add_event_submit" class="btn btn-primary">
+                        <input type="submit" value="Send Request">
+                        
+                        {{-- <input type="submit" id="kt_modal_add_event_submit" class="btn primary indicator-label" value="Salvar"> --}}
+                        {{-- <button type="button" id="kt_modal_add_event_submit" class="btn btn-primary">
                             <span class="indicator-label">Salvar</span>
                             <span class="indicator-progress">Processando...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
+                        </button> --}}
                     </div>
 
                 </form>
@@ -156,8 +159,12 @@
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/jquery.mask.js"></script> 
     <script type="text/javascript" >
+
+        function validade(){
+            return true;
+        }
         
-        $( '#kt_modal_add_event_submit' ).on('click', function() {
+        $( '#kt_modal_add_event_submit_' ).on('click', function() {
 
             if( $('#birthdate').attr('smaller12') == "Y" ){
                 
@@ -174,11 +181,23 @@
                     return false;
                 }
             }
+             return false;
+            /*
             console.log($('#form_data').serialize());
+            var _data = "";
+            _data =  "specialty=" + $("#specialty").val();
+            _data += "&doctor=" + $("#doctor").val();
+            _data += "&patient=" + $("#patient").val();
+            _data += "&birthdate=" + $("#birthdate").val();
+            _data += "&responsible_name=" + $("#responsible_name").val();
+            _data += "&responsible_cpf=" + $("#responsible_cpf").val();
+            _data += "&_token=" + $('input="_token"').val();
+
             $.ajax({
                 type: "POST",
                 url: "ma-save",
-                data: $('#form_data').serialize(),
+                //data: $('#form_data').serialize(),
+                data: _data,
                 dataType: "json",
                 success: function(result) {
                     console.log(result);
@@ -187,9 +206,7 @@
                     console.log(result);
                 }
             });
-
-            
-                
+            */
             return false;
             /*$(this).removeClass().addClass('form-control form-control-solid');
 

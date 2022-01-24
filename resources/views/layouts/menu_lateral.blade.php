@@ -8,7 +8,7 @@
                 <!--begin::menu-accordion-->
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <div class="menu-item">
-                        <a class="menu-link" href="specialty-list">
+                        <a class="menu-link" href="../specialty-list">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
                                 <span class="svg-icon svg-icon-2">
@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link" href="doctor-list">
+                        <a class="menu-link" href="../doctor-list">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link" href="patient-list">
+                        <a class="menu-link" href="../patient-list">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
